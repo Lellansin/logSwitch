@@ -1,0 +1,31 @@
+{
+  "name": "log-switch",
+  "version": "0.0.2",
+  "description": "help switch log function",
+  "main": "logSwitch.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lellansin/logSwitch"
+  },
+  "keywords": [
+    "console.log",
+    "log",
+    "disable log"
+  ],
+  "author": {
+    "name": "Lellansin"
+  },
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/Lellansin/logSwitch/issues"
+  },
+  "readme": "\r\nLog Switch\r\n------------\r\n\r\nThe problem is so many logs in my program.\r\n\r\n    for (var i = 0; i < 100000; i++) {\r\n      console.log('hello %d', i);\r\n    }\r\n\r\n`Result`\r\n\r\n    hello 0\r\n    hello 1\r\n    ...\r\n    hello 99998\r\n    hello 99999\r\n    [Finished in 40.6s]\r\n\r\n\r\nDisable console.log\r\n---------------------\r\n\r\nAs you see the info, call the console.log 100,000 times takes `40.6` second. that's so bad. To avoid this situation, you can use LogSwitch to disable it.\r\n\r\n    var logs = require('log-switch');\r\n    \r\n    logs.disable();\r\n    \r\n    for (var i = 0; i < 100000; i++) {\r\n      console.log('hello %d', i);\r\n    }\r\n    \r\n    logs.restore();\r\n    \r\n    console.log('over');\r\n\r\n`Result`\r\n\r\n    over\r\n    [Finished in 0.2s]\r\n\r\n\r\nAuto enable logs\r\n---------------------\r\n\r\nIn case the error thrown, LogsSwitch can auto print the last 10 logs.\r\n\r\n    var logs = require('log-switch');\r\n    \r\n    logs.setQueueLength(10);\r\n    logs.disable();\r\n    \r\n    for (var i = 0; i < 100000; i++) {\r\n      if (i === 50000) {\r\n        throw new Error('Error string');\r\n      }\r\n      console.log('hello %d', i);\r\n    }\r\n\r\n`Result`\r\n\r\n    hello 49989\r\n    hello 49990\r\n    hello 49991\r\n    hello 49992\r\n    hello 49993\r\n    hello 49994\r\n    hello 49995\r\n    hello 49996\r\n    hello 49997\r\n    hello 49998\r\n    hello 49999\r\n    \r\n    E:\\node\\log-switch\\test.js:9\r\n    \t\tthrow new Error('Error string');\r\n    \t\t^\r\n    Error: Error string\r\n        at Error (<anonymous>)\r\n        at new Error (E:\\node\\log-switch\\t.js:55:22)\r\n        at Object.<anonymous> (E:\\node\\log-switch\\test.js:9:9)\r\n        at Module._compile (module.js:456:26)\r\n        at Object.Module._extensions..js (module.js:474:10)\r\n        at Module.load (module.js:356:32)\r\n        at Function.Module._load (module.js:312:12)\r\n        at Function.Module.runMain (module.js:497:10)\r\n        at startup (node.js:119:16)\r\n        at node.js:901:3\r\n\r\n    [Finished in 0.2s with exit code 8]\r\n    [cmd: node E:\\node\\log-switch\\test.js]\r\n\r\n\r\nTest computer\r\n--------------------\r\n\r\n        OS    :  Microsoft Windows 7 Ultimate (x64)\r\n    Processor :  AMD64 Family 16 Model 6 Stepping 3 AuthenticAMD ~3000 Mhz",
+  "readmeFilename": "README.md",
+  "_id": "log-switch@0.0.2",
+  "dist": {
+    "shasum": "e83ff68b26410f1287826e0c4e48fe9d3b669eec"
+  },
+  "_from": "log-switch@",
+  "_resolved": "https://registry.npmjs.org/log-switch/-/log-switch-0.0.2.tgz"
+}
