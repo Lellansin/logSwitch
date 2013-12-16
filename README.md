@@ -119,6 +119,7 @@ t.js
     var logs = require('log-switch');
     var twiceCall = require('./track-test').twiceCall;
     
+    logs.track();
     console.log('first file');
     twiceCall();
     
