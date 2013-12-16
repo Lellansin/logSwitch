@@ -13,6 +13,14 @@ function LogSwitch() {
 }
 
 /**
+ * track the console.log
+ */
+LogSwitch.prototype.track = function() {
+  var self = this;
+  self.trackConsoleLog();
+};
+
+/**
  * disable console.log
  */
 LogSwitch.prototype.disable = function() {
@@ -39,6 +47,17 @@ LogSwitch.prototype.record = function() {
     self._log_list.shift();
   }
   self._log_list.push(arguments);
+};
+
+/**
+ * set console.log
+ */
+LogSwitch.prototype.trackConsoleLog = function() {
+  var self = this;
+  console.log = function() {
+    self._console_log.apply(self, arguments);
+    self._console_log('  at ' + (self._getCallFunc()||'') + ' (' + self._getCallSrc() + ':' + self._getCallLine() + ')');
+  };
 };
 
 /**
@@ -86,7 +105,7 @@ LogSwitch.prototype.history = function() {
 LogSwitch.prototype.historySync = function() {
   var self = this;
   for (var i = 0; i < self._log_list.length; i++) {
-    self.print.apply(undefined, this._log_list[i]);
+    self.print.apply(undefined, self._log_list[i]);
   }
 };
 
@@ -95,4 +114,32 @@ LogSwitch.prototype.historySync = function() {
  */
 LogSwitch.prototype.print = function() {
   var response = fs.writeSync(process.stdout.fd, util.format.apply(this, arguments) + '\n');
+}
+
+LogSwitch.prototype.__getCallStack = function() {
+  var self = this;
+  var orig = self._Error.prepareStackTrace;
+  self._Error.prepareStackTrace = function(__, stack) {
+    return stack;
+  };
+  var err = new self._Error;
+  self._Error.captureStackTrace(err, arguments.callee);
+  var stack = err.stack;
+  self._Error.prepareStackTrace = orig;
+  return stack[2];
+}
+
+LogSwitch.prototype._getCallLine = function() {
+  var self = this;
+  return self.__getCallStack().getLineNumber();
+}
+
+LogSwitch.prototype._getCallFunc = function() {
+  var self = this;
+  return self.__getCallStack().getFunctionName();
+}
+
+LogSwitch.prototype._getCallSrc = function() {
+  var self = this;
+  return self.__getCallStack().getScriptNameOrSourceURL();
 }
