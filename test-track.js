@@ -1,5 +1,5 @@
 var logs = require('log-switch');
-var twiceCall = require('./track-test-fun').twiceCall;
+var twiceCall = require('./test-track-fun').twiceCall;
 
 logs.track();
 
