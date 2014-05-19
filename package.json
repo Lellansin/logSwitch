@@ -2,8 +2,10 @@
   "name": "log-switch",
   "version": "0.0.3",
   "description": "help switch log function",
-  "main": "logSwitch.js",
-  "scripts": {},
+  "main": "index",
+  "scripts": {
+    "test": "node ./test/disable.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Lellansin/logSwitch"
@@ -15,7 +17,8 @@
     "track log"
   ],
   "author": {
-    "name": "Lellansin"
+    "name": "Lellansin",
+    "email": "lellansin@gmail.com"
   },
   "license": "BSD",
   "bugs": {
